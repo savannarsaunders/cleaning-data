@@ -1,0 +1,57 @@
+---
+title: "Near and Table Joins"
+author: "J.Blondeau"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+options(width = 750)
+```
+
+***
+## Data
+I added an additional folder in the GIS Material folder I sent to you weeks ago called 'watershed_near_lesson'.  Download the whole folder (likely unzip it).  All the shapefiles you will need this week are here. 
+
+3 shapefiles
+
+- ghut_output.shp
+- watershed_indicators.shp
+- stt_ncrmp_points.shp
+
+***
+
+## Hotspot Analysis
+
+1) Perform a Optimized Hotspot Analysis of percent coral cover using the stt_ncrmp_points
+
+Optimized Hotspot Analysis analyzes the numeric field and automatically sets parameters.  If you want full controll over all settings and parameters, use the Hot Spot Analysis (Getis-Ord Gi*).  
+
+[Hot Spot Analysis (Getis-Ord Gi*) (Spatial Statistics)](https://pro.arcgis.com/en/pro-app/3.6/tool-reference/spatial-statistics/hot-spot-analysis.htm)
+
+[Optimized Hot Spot Analysis (Spatial Statistics)](https://pro.arcgis.com/en/pro-app/3.5/tool-reference/spatial-statistics/optimized-hot-spot-analysis.htm)
+
+## Regression Analysis
+
+1) You are asked by your advisor if sediment load has an effect on percent coral cover and if it depends on distance from shore (more specifically, island ghut outflow point).
+
+
+
+$$
+{percent\_coral} = \beta_0 + \beta_1(\text{sediment}) + \beta_2(\text{dist\_shore}) + \beta_3(\text{sediment} \times \text{dist\_shore}) + \epsilon
+$$
+In R, the linear regression may look something like this...
+
+`lm(percent_coral ~ dist_outflow_m + sediment_volume, data = reef_data)`
+
+or
+
+`lm(percent_coral ~ dist_outflow_m * sediment_volume, data = reef_data)`
+
+**First**, think about what data you would need to export from GIS to R.  What are the minimum attributes you would need to run a linear regression?  **Then**, think of a plan for extracting all that information out of the shapefiles. 
+
+
+
