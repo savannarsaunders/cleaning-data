@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -26,14 +26,15 @@ ul.task-list li input[type="checkbox"] {
 <script src="cleaning-data_files/libs/clipboard/clipboard.min.js"></script>
 <script src="cleaning-data_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="cleaning-data_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="cleaning-data_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="cleaning-data_files/libs/quarto-html/popper.min.js"></script>
 <script src="cleaning-data_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="cleaning-data_files/libs/quarto-html/anchor.min.js"></script>
 <link href="cleaning-data_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="cleaning-data_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="cleaning-data_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="cleaning-data_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="cleaning-data_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="cleaning-data_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="cleaning-data_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -63,19 +64,21 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Today’s exercise you will take data entered into excel from a mangrove propagule growth experiment and write a function to clean the data and prepare it for analysis. This is a common task you could be given as we will often be given a spreadsheet from an experiment. Often there are errors, typos, wrong data types that need to be carefully dealt with prior to analyzing the data.</p>
+<p>Today’s exercise you will take data entered into excel from a mangrove propagule growth experiment and write code to clean the data and prepare it for analysis. This is a common task you could be given as we will often be given a spreadsheet from an experiment. Often there are errors, typos, wrong data types that need to be carefully dealt with prior to analyzing the data.</p>
 <p><strong>Experimental Design:</strong></p>
-<p>2 Locations 3 Treatments (Control, Treatment 1, Treatment 2) 25 Propagules in each Location/Treatment block</p>
-<p>Measure the propagule height for the 25 propagules (repeated measures of same propagule) once a week for 6 months</p>
-<p><strong>The Function will:</strong></p>
+<ul>
+<li>2 Locations</li>
+<li>3 Treatments (Control, Treatment 1, Treatment 2)</li>
+<li>25 Propagules in each Location/Treatment block</li>
+</ul>
+<p>Clean data should:</p>
 <ol type="1">
-<li><p>read in data from an excel spreadsheet (found in the /data directory)</p></li>
-<li><p>return a dataframe that is ready for analysis</p></li>
+<li>be in long format</li>
+<li>have column names with no spaces</li>
+<li>have consistent value names</li>
+<li>decimal types where necessary</li>
+<li>formatted dates</li>
 </ol>
-<p>Hints: inspect the data first and come up with a plan</p>
-<p><strong>Bonus Exercise</strong></p>
-<p>Create another function that plots the growth over time for each Location by Treatment type</p>
-<p><img src="bonus_plot.jpeg" class="img-fluid"></p>
 
 </main>
 <!-- /main column -->
@@ -130,13 +133,14 @@ ul.task-list li input[type="checkbox"] {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
